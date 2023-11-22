@@ -1,4 +1,8 @@
 import pandas as pd
+import tensorflow as tf
+from tensorflow.keras import layers
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from Visualizations import Visualizer
 # imports
 
@@ -6,6 +10,7 @@ from Visualizations import Visualizer
     Use if you want
     rename the class to reflect the data you are using
     have relevant file and folder names
+    Dont forrget to remove the NotImplementedError
 """
 
 
