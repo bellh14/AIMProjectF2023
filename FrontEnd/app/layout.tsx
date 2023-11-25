@@ -10,8 +10,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-    title: "Make-UTD",
-    description: "Official website for Make-UTD",
+    title: "FinAdvisor",
+    description: "Official website for FinAdvisor.",
 };
 
 const antDCustomizeTheme = {
