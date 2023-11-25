@@ -2,26 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+html,
+body,
+#root,
+.app {
+    height: 100%;
+    width: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.ant-menu-item-selected,
+.ant-menu-submenu-selected {
+    background-color: rgba(128, 128, 128, 0.31) !important;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+    .headerDiv {
+        @apply fixed top-0 h-[4.5rem] w-full flex items-center left-1/2
+        rounded-none border border-white border-opacity-40 
+        bg-white bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
+        sm:top-6 sm:h-[3.25rem] sm:w-[36rem] sm:rounded-full;
+    }
+    .navbarStyle {
+        @apply flex fixed top-[0.15rem] left-1/2 h-12 -translate-x-1/2 
+        py-2 sm:top-[1.7rem] sm:h-[initial] sm:py-0
+        justify-center items-center gap-y-1;
+    }
 }
