@@ -69,58 +69,58 @@ const items: MenuProps["items"] = [
 type Props = {};
 
 const Navbar = (props: Props) => {
-    const Navbar = (props: Props) => {
-        const [navbarToggle, setNavbarToggle] = useState<boolean>(false);
-        return (
-            <header className="z-[999] relative invisible md:visible">
+    const [navbarToggle, setNavbarToggle] = useState<boolean>(false);
+    return (
+        <header className="z-[999] relative invisible md:visible">
+            <motion.div
+                className="headerDiv md:w-1/2 sm:w-[36rem]"
+                initial={{ y: -100, x: "-50%", opacity: 0 }}
+                animate={{ y: 0, x: "-50%", opacity: 1 }}
+            ></motion.div>
+            <nav className="navbarStyle">
                 <motion.div
-                    className="headerDiv md:w-1/2 sm:w-[36rem]"
-                    initial={{ y: -100, x: "-50%", opacity: 0 }}
-                    animate={{ y: 0, x: "-50%", opacity: 1 }}
+                    className="mx-auto md:min-w-[500px] md:visible invisible w-0"
+                    initial={{ y: -100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                >
+                    <Menu
+                        mode="horizontal"
+                        theme="dark"
+                        items={items}
+                        className="flex items-center justify-between text-secondary-blue text-lg transition px-3 py-2"
+                    />
+                </motion.div>
+
+                <motion.div
+                    className="w-0 invisible md:min-w-[50px] md:visible ml-auto mr-4"
+                    initial={{ y: -100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                 ></motion.div>
-                <nav className="navbarStyle">
-                    <motion.div
-                        className="mx-auto md:min-w-[500px] md:visible invisible w-0"
-                        initial={{ y: -100, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                    >
-                        <Menu
-                            mode="horizontal"
-                            theme="dark"
-                            items={items}
-                            className="flex items-center justify-between text-secondary-blue text-lg transition px-3 py-2"
-                        />
-                    </motion.div>
-
-                    <motion.div
-                        className="w-0 invisible md:min-w-[50px] md:visible ml-auto mr-4"
-                        initial={{ y: -100, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                    ></motion.div>
-                </nav>
-                <div className="block ml-auto md:hidden fixed visible">
-                    <Button
-                        type="primary"
-                        onClick={() => setNavbarToggle(!navbarToggle)}
-                        className=" text-secondary-blue"
-                    >
-                        {navbarToggle ? (
-                            <MenuUnfoldOutlined />
-                        ) : (
-                            <MenuFoldOutlined />
-                        )}
-                    </Button>
-
-                    {navbarToggle && (
-                        <Menu
-                            mode="inline"
-                            theme="dark"
-                            items={items}
-                            className="bg-black right-0 z-[9999] w-full text-secondary-blue transition"
-                        />
+            </nav>
+            <div className="block ml-auto md:hidden fixed visible">
+                <Button
+                    type="primary"
+                    onClick={() => setNavbarToggle(!navbarToggle)}
+                    className=" text-secondary-blue"
+                >
+                    {navbarToggle ? (
+                        <MenuUnfoldOutlined />
+                    ) : (
+                        <MenuFoldOutlined />
                     )}
-                </div>
-            </header>
-        );
-    };
+                </Button>
+
+                {navbarToggle && (
+                    <Menu
+                        mode="inline"
+                        theme="dark"
+                        items={items}
+                        className="bg-black right-0 z-[9999] w-full text-secondary-blue transition"
+                    />
+                )}
+            </div>
+        </header>
+    );
 };
+
+export default Navbar;
