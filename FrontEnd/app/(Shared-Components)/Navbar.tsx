@@ -38,14 +38,14 @@ const items: MenuProps["items"] = [
             href="#challenges"
             rel="noopener noreferrer"
         >
-            Challenges
+            Solutions
         </a>,
         "sub2",
         null
     ),
     getItem(
-        <a className={"navbarLink"} href="#sponsors" rel="noopener noreferrer">
-            Sponsors
+        <a className={"navbarLink text-2xl"} href="/" rel="noopener noreferrer">
+            FinAdvisor
         </a>,
         "sub3",
         null
@@ -59,7 +59,7 @@ const items: MenuProps["items"] = [
     ),
     getItem(
         <a className={"navbarLink"} href="#schedule" rel="noopener noreferrer">
-            Schedule
+            Login
         </a>,
         "sub5",
         null
@@ -79,7 +79,7 @@ const Navbar = (props: Props) => {
             ></motion.div>
             <nav className="navbarStyle">
                 <motion.div
-                    className="mx-auto md:min-w-[500px] md:visible invisible w-0"
+                    className="mx-auto md:min-w-[600px] md:visible invisible w-0"
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
@@ -87,7 +87,7 @@ const Navbar = (props: Props) => {
                         mode="horizontal"
                         theme="dark"
                         items={items}
-                        className="flex items-center justify-between text-secondary-blue text-lg transition px-3 py-2"
+                        className="flex items-center justify-between px-2 text-lg transition py-2"
                     />
                 </motion.div>
 
@@ -101,7 +101,7 @@ const Navbar = (props: Props) => {
                 <Button
                     type="primary"
                     onClick={() => setNavbarToggle(!navbarToggle)}
-                    className=" text-secondary-blue"
+                    className=""
                 >
                     {navbarToggle ? (
                         <MenuUnfoldOutlined />
@@ -115,7 +115,7 @@ const Navbar = (props: Props) => {
                         mode="inline"
                         theme="dark"
                         items={items}
-                        className="bg-black right-0 z-[9999] w-full text-secondary-blue transition"
+                        className="bg-black right-0 z-[9999] w-full transition"
                     />
                 )}
             </div>

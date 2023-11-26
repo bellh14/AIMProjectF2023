@@ -30,14 +30,11 @@ module.exports = {
                 "wh-300": "#939393",
                 "wh-500": "#595959",
                 "wh-900": "#0F0F0F",
-                "accent-red": "#EA9648",
-                "accent-orange": "#E87500",
-                "officer-orange": "#EE9740",
-                "accent-green": "#2D8B49",
-                "accent-yellow": "#EDCA2C",
-                "or-10": "#ff841c",
-                "secondary-blue": "#498E94",
-                "secondary-red": "#E20000",
+                "primary-pink": "#C3ACD0",
+                "primary-purple": "#7743DB",
+                "primary-off-white": "#FFFBF5",
+                beige: "#F7EFE5",
+                "primary-blue": "#084887",
             },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -50,10 +47,10 @@ module.exports = {
         plugin(function ({ addComponents }: { addComponents: Function }) {
             addComponents({
                 ".navbarLink": {
-                    color: "#498E94",
+                    color: "#7743DB",
                     opacity: 100,
                     "&:hover": {
-                        color: "#E20000",
+                        color: "#7743DB",
                         underline: true,
                         opacity: 1,
                     },
