@@ -1,0 +1,4 @@
+__pycache__/
+stocks_test.csv
+stocks_train.csv
+stocks_val.csv

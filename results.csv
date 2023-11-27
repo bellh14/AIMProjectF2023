@@ -1,0 +1,9 @@
+,Test - MAE,Validation - MAE
+Baseline-Last,,
+Baseline-Repeat,,
+Linear,,
+Dense,,
+LSTM,,
+CNN,,
+CNN+LSTM,,
+ARLSTM,,

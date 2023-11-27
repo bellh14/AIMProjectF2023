@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as font_manager
@@ -29,7 +30,7 @@ class Visualizer:
 
 
 class DataWindow:
-    def __init(
+    def __init__(
         self,
         input_width: int,
         label_width: int,
@@ -39,6 +40,7 @@ class DataWindow:
         test_df: pd.DataFrame,
         label_columns: list = None,
     ):
+        self.save_count = 0
         self.input_width = input_width
         self.label_width = label_width
         self.shift = shift
@@ -49,8 +51,10 @@ class DataWindow:
 
         if label_columns is not None:
             self.label_columns_indices = {
-                name: i for i, name in enumerate(train_df.columns)
+                name: i for i, name in enumerate(label_columns)
             }
+
+        self.column_indices = {name: i for i, name in enumerate(train_df.columns)}
 
         self.total_window_size = input_width + shift
         self.input_slice = slice(0, input_width)
@@ -75,14 +79,14 @@ class DataWindow:
         return inputs, labels
 
     def plot(self, model=None, plot_col="Close", max_subplots=3):
-        inputs, labels = self.smple_batch
+        inputs, labels = self.sample_batch
 
         plt.figure(figsize=(12, 8))
         plot_col_index = self.column_indices[plot_col]
         max_n = min(max_subplots, len(inputs))
 
         for n in range(max_n):
-            plt.subplot(max_n, 1, n + 1)
+            plt.subplot(3, 1, n + 1)
             plt.ylabel(f"{plot_col} [scaled]")
             plt.plot(
                 self.input_indices,
@@ -124,9 +128,13 @@ class DataWindow:
 
             if n == 0:
                 plt.legend()
+                plt.savefig(f"plot{self.save_count}.png")
+                self.save_count += 1
 
-        plt.xlabel("Time [days]")
+        plt.xlabel("Date (Day)")
         plt.ylabel("Closing Price (USD)")
+        plt.savefig(f"plot{self.save_count}.png")
+        self.save_count += 1
 
     def make_dataset(self, data):
         data = np.array(data, dtype=np.float32)
