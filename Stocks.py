@@ -161,7 +161,7 @@ class Stocks:
         self.save_failed()
         self.combine_data()
 
-    def compile_and_fit(self, model, window, patience=3, max_epochs=32):
+    def compile_and_fit(self, model, window, patience=10, max_epochs=50):
         early_stopping = EarlyStopping(
             monitor="val_loss", patience=patience, mode="min"
         )
@@ -237,7 +237,8 @@ if __name__ == "__main__":
     # stocks.combine_data()
 
     # stocks.data_pipeline()
-    stocks.load_data("stocks_train.csv", "stocks_val.csv", "stocks_test.csv")
+    # stocks.load_data("stocks_train.csv", "stocks_val.csv", "stocks_test.csv")
+    stocks.load_data("AAPL_train.csv", "AAPL_val.csv", "AAPL_test.csv")
     multi_window = DataWindow(
         input_width=21,
         label_width=21,
@@ -249,66 +250,67 @@ if __name__ == "__main__":
     )
     val_performance = {}
     performance = {}
-    # baseline_last = MultiStepLastBaseline(label_index=stocks.column_indices["Close"])
-    # baseline_last.compile(loss=MeanSquaredError(), metrics=[MeanAbsoluteError()])
-    
-    # val_performance["Baseline - Last"] = baseline_last.evaluate(multi_window.val)
-    # performance["Baseline - Last"] = baseline_last.evaluate(
-    #     multi_window.test, verbose=0
-    # )
-    # multi_window.plot(baseline_last)
 
-    # baseline_repeat = RepeatBaseline(label_index=stocks.column_indices["Close"])
-    # baseline_repeat.compile(loss=MeanSquaredError(), metrics=[MeanAbsoluteError()])
-    # val_performance["Baseline - Repeat"] = baseline_repeat.evaluate(multi_window.val)
-    # performance["Baseline - Repeat"] = baseline_repeat.evaluate(
-    #     multi_window.test, verbose=0
-    # )
-    # multi_window.plot(baseline_repeat)
+    baseline_last = MultiStepLastBaseline(label_index=stocks.column_indices["Close"])
+    baseline_last.compile(loss=MeanSquaredError(), metrics=[MeanAbsoluteError()])
 
-    # label_index = stocks.column_indices["Close"]
-    # num_features = stocks.train_df.shape[1]
+    val_performance["Baseline - Last"] = baseline_last.evaluate(multi_window.val)
+    performance["Baseline - Last"] = baseline_last.evaluate(
+        multi_window.test, verbose=0
+    )
+    multi_window.plot(model=baseline_last, model_name="Baseline - Last")
+
+    baseline_repeat = RepeatBaseline(label_index=stocks.column_indices["Close"])
+    baseline_repeat.compile(loss=MeanSquaredError(), metrics=[MeanAbsoluteError()])
+    val_performance["Baseline - Repeat"] = baseline_repeat.evaluate(multi_window.val)
+    performance["Baseline - Repeat"] = baseline_repeat.evaluate(
+        multi_window.test, verbose=0
+    )
+    multi_window.plot(model=baseline_repeat, model_name="Baseline - Repeat")
+
+    label_index = stocks.column_indices["Close"]
+    num_features = stocks.train_df.shape[1]
     with tf.device("/cpu:0"):
-        # linear = Sequential([Dense(units=1, kernel_initializer=tf.initializers.zeros)])
-        # history = stocks.compile_and_fit(linear, multi_window)
-        # try:
-        #     linear.save("linear_model.h5")
-        # except Exception as e:
-        #     print(e)
-        # val_performance["Linear"] = linear.evaluate(multi_window.val)
-        # performance["Linear"] = linear.evaluate(multi_window.test, verbose=0)
-        # multi_window.plot(linear)
+        linear = Sequential([Dense(units=1, kernel_initializer=tf.initializers.zeros)])
+        history = stocks.compile_and_fit(linear, multi_window)
+        try:
+            linear.save("linear_model.h5")
+        except Exception as e:
+            print(e)
+        val_performance["Linear"] = linear.evaluate(multi_window.val)
+        performance["Linear"] = linear.evaluate(multi_window.test, verbose=0)
+        multi_window.plot(model=linear, model_name="Linear")
 
-        # dense = Sequential(
-        #     [
-        #         Dense(units=64, activation="relu"),
-        #         Dense(units=64, activation="relu"),
-        #         Dense(units=1, kernel_initializer=tf.initializers.zeros),
-        #     ]
-        # )
-        # history = stocks.compile_and_fit(dense, multi_window)
-        # try:
-        #     dense.save("dense_model.h5")
-        # except Exception as e:
-        #     print(e)
-        # val_performance["Dense"] = dense.evaluate(multi_window.val)
-        # performance["Dense"] = dense.evaluate(multi_window.test, verbose=0)
-        # multi_window.plot(dense)
+        dense = Sequential(
+            [
+                Dense(units=64, activation="relu"),
+                Dense(units=64, activation="relu"),
+                Dense(units=1, kernel_initializer=tf.initializers.zeros),
+            ]
+        )
+        history = stocks.compile_and_fit(dense, multi_window)
+        try:
+            dense.save("dense_model.h5")
+        except Exception as e:
+            print(e)
+        val_performance["Dense"] = dense.evaluate(multi_window.val)
+        performance["Dense"] = dense.evaluate(multi_window.test, verbose=0)
+        multi_window.plot(model=dense, model_name="Dense")
 
-        # lstm_model = Sequential(
-        #     [
-        #         LSTM(32, return_sequences=True),
-        #         Dense(1, kernel_initializer=tf.initializers.zeros),
-        #     ]
-        # )
-        # history = stocks.compile_and_fit(lstm_model, multi_window)
-        # try:
-        #     lstm_model.save("lstm_model.h5")
-        # except Exception as e:
-        #     print(e)
-        # val_performance["LSTM"] = lstm_model.evaluate(multi_window.val)
-        # performance["LSTM"] = lstm_model.evaluate(multi_window.test, verbose=0)
-        # multi_window.plot(lstm_model)
+        lstm_model = Sequential(
+            [
+                LSTM(32, return_sequences=True),
+                Dense(1, kernel_initializer=tf.initializers.zeros),
+            ]
+        )
+        history = stocks.compile_and_fit(lstm_model, multi_window)
+        try:
+            lstm_model.save("lstm_model.h5")
+        except Exception as e:
+            print(e)
+        val_performance["LSTM"] = lstm_model.evaluate(multi_window.val)
+        performance["LSTM"] = lstm_model.evaluate(multi_window.test, verbose=0)
+        multi_window.plot(model=lstm_model, model_name="LSTM")
 
         KERNEL_WIDTH = 3
         LABEL_WIDTH = 21
@@ -324,57 +326,63 @@ if __name__ == "__main__":
             label_columns=["Close"],
         )
 
-        # cnn_model = Sequential(
-        #     [
-        #         Conv1D(
-        #             32,
-        #             kernel_size=(KERNEL_WIDTH),
-        #             activation="relu",
-        #         ),
-        #         Dense(units=32, activation="relu"),
-        #         Dense(units=1, kernel_initializer=tf.initializers.zeros),
-        #     ]
-        # )
-        # history = stocks.compile_and_fit(cnn_model, cnn_multi_window)
-        # try:
-        #     cnn_model.save("cnn_model.h5")
-        # except Exception as e:
-        #     print(e)
-        # val_performance["CNN"] = cnn_model.evaluate(cnn_multi_window.val)
-        # performance["CNN"] = cnn_model.evaluate(cnn_multi_window.test, verbose=0)
-        # cnn_multi_window.plot(cnn_model)
+        cnn_model = Sequential(
+            [
+                Conv1D(
+                    32,
+                    kernel_size=(KERNEL_WIDTH),
+                    activation="relu",
+                ),
+                Dense(units=32, activation="relu"),
+                Dense(units=1, kernel_initializer=tf.initializers.zeros),
+            ]
+        )
+        history = stocks.compile_and_fit(cnn_model, cnn_multi_window)
+        try:
+            cnn_model.save("cnn_model.h5")
+        except Exception as e:
+            print(e)
+        val_performance["CNN"] = cnn_model.evaluate(cnn_multi_window.val)
+        performance["CNN"] = cnn_model.evaluate(cnn_multi_window.test, verbose=0)
+        cnn_multi_window.plot(model=cnn_model, model_name="CNN")
 
-        # cnn_lstm_model = Sequential(
-        #     [
-        #         Conv1D(
-        #             32,
-        #             kernel_size=(KERNEL_WIDTH),
-        #             activation="relu",
-        #         ),
-        #         LSTM(32, return_sequences=True),
-        #         Dense(units=1, kernel_initializer=tf.initializers.zeros),
-        #     ]
-        # )
-        # history = stocks.compile_and_fit(cnn_lstm_model, cnn_multi_window)
-        # try:
-        #     cnn_lstm_model.save("cnn_lstm_model.h5")
-        # except Exception as e:
-        #     print(e)
-        # val_performance["CNN + LSTM"] = cnn_lstm_model.evaluate(cnn_multi_window.val)
-        # performance["CNN + LSTM"] = cnn_lstm_model.evaluate(
-        #     cnn_multi_window.test, verbose=0
-        # )
-        # cnn_multi_window.plot(cnn_lstm_model)
+        cnn_lstm_model = Sequential(
+            [
+                Conv1D(
+                    32,
+                    kernel_size=(KERNEL_WIDTH),
+                    activation="relu",
+                ),
+                LSTM(32, return_sequences=True),
+                Dense(units=1, kernel_initializer=tf.initializers.zeros),
+            ]
+        )
+        history = stocks.compile_and_fit(cnn_lstm_model, cnn_multi_window)
+        try:
+            cnn_lstm_model.save("cnn_lstm_model.h5")
+        except Exception as e:
+            print(e)
+        val_performance["CNN + LSTM"] = cnn_lstm_model.evaluate(cnn_multi_window.val)
+        performance["CNN + LSTM"] = cnn_lstm_model.evaluate(
+            cnn_multi_window.test, verbose=0
+        )
+        cnn_multi_window.plot(model=cnn_lstm_model, model_name="CNN + LSTM")
 
-        AR_LSTM = AutoRegressive(units=32, out_steps=21, train_df=stocks.train_df, val_df=stocks.val_df, test_df=stocks.test_df)
+        AR_LSTM = AutoRegressive(
+            units=32,
+            out_steps=21,
+            train_df=stocks.train_df,
+            val_df=stocks.val_df,
+            test_df=stocks.test_df,
+        )
         history = stocks.compile_and_fit(AR_LSTM, multi_window)
         try:
-            AR_LSTM.save("AR_LSTM.h5", save_format="tf")
+            AR_LSTM.save("AR_LSTM", save_format="tf")
         except Exception as e:
             print(e)
         val_performance["ARLSTM"] = AR_LSTM.evaluate(multi_window.val)
         performance["ARLSTM"] = AR_LSTM.evaluate(multi_window.test, verbose=0)
-        multi_window.plot(AR_LSTM)
+        multi_window.plot(model=AR_LSTM, model_name="ARLSTM")
 
         mae_val = [v[1] for v in val_performance.values()]
         mae_test = [v[1] for v in performance.values()]
@@ -431,7 +439,16 @@ if __name__ == "__main__":
         plt.figure(figsize=(10, 6))
         plt.show()
     try:
-        model_names = ["Baseline-Last", "Baseline-Repeat", "Linear", "Dense", "LSTM", "CNN", "CNN+LSTM", "ARLSTM"]
+        model_names = [
+            "Baseline-Last",
+            "Baseline-Repeat",
+            "Linear",
+            "Dense",
+            "LSTM",
+            "CNN",
+            "CNN+LSTM",
+            "ARLSTM",
+        ]
         data = {"Test - MAE": mae_test, "Validation - MAE": mae_val}
         df = pd.DataFrame(data, index=model_names)
         df_sorted = df.sort_values(by="Test - MAE", ascending=True)

@@ -78,7 +78,7 @@ class DataWindow:
         labels.set_shape([None, self.label_width, None])
         return inputs, labels
 
-    def plot(self, model=None, plot_col="Close", max_subplots=3):
+    def plot(self, model_name: str, model=None, plot_col="Close", max_subplots=3):
         inputs, labels = self.sample_batch
 
         plt.figure(figsize=(12, 8))
@@ -128,13 +128,10 @@ class DataWindow:
 
             if n == 0:
                 plt.legend()
-                plt.savefig(f"plot{self.save_count}.png")
-                self.save_count += 1
 
-        plt.xlabel("Date (Day)")
+        plt.xlabel(f"Date (Day)\n\n{model_name}")
         plt.ylabel("Closing Price (USD)")
-        plt.savefig(f"plot{self.save_count}.png")
-        self.save_count += 1
+        plt.savefig(f"results/{model_name}.png")
 
     def make_dataset(self, data):
         data = np.array(data, dtype=np.float32)
