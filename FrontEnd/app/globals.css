@@ -15,6 +15,10 @@ body,
     background-color: rgba(128, 128, 128, 0.31) !important;
 }
 
+.ant-form-item-label > label {
+    font-size: 24px !important;
+}
+
 @layer components {
     .headerDiv {
         @apply fixed top-0 h-[4.5rem] w-full flex items-center left-1/2

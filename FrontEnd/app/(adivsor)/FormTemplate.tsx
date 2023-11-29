@@ -19,18 +19,17 @@ const FormTemplate = (props: Props) => {
     return (
         <div>
             <Form
-                labelCol={{ span: 7 }}
-                wrapperCol={{ span: 14 }}
+                labelCol={{ span: 12 }}
+                wrapperCol={{ span: 16 }}
                 layout="horizontal"
                 size="large"
-                // style={{ maxWidth: 600 }}
                 className="w-full my-16"
             >
-                <h2 className="text-2xl font-bold text-center mb-8 text-primary-purple">
+                <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">
                     Form 1
                 </h2>
-                <div className="grid grid-flow-row grid-cols-3 gap-8">
-                    <Form.Item label="Input">
+                <div className="grid grid-flow-row grid-cols-2 gap-8 my-4">
+                    <Form.Item label="Input" className="text-2xl">
                         <Input />
                     </Form.Item>
                     <Form.Item label="Select">
