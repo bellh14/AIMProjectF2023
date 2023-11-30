@@ -13,20 +13,23 @@ import {
     TreeSelect,
 } from "antd";
 
-type Props = {};
+type Props = {
+    id: string;
+    name: string;
+};
 
 const FormTemplate = (props: Props) => {
     return (
-        <div>
+        <div id={props.id}>
             <Form
                 labelCol={{ span: 12 }}
                 wrapperCol={{ span: 16 }}
                 layout="horizontal"
                 size="large"
-                className="w-full my-16"
+                className="w-full my-16 shadow-lg p-8 rounded-xl"
             >
                 <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">
-                    Form 1
+                    {props.name}
                 </h2>
                 <div className="grid grid-flow-row grid-cols-2 gap-8 my-4">
                     <Form.Item label="Input" className="text-2xl">

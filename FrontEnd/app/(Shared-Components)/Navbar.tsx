@@ -26,8 +26,8 @@ function getItem(
 
 const items: MenuProps["items"] = [
     getItem(
-        <a className={"navbarLink"} href="#about" rel="noopener noreferrer">
-            About
+        <a className={"navbarLink"} href="#Stocks" rel="noopener noreferrer">
+            Stocks
         </a>,
         "sub1",
         null
@@ -35,31 +35,31 @@ const items: MenuProps["items"] = [
     getItem(
         <a
             className={"navbarLink"}
-            href="#challenges"
+            href="#Sales"
             rel="noopener noreferrer"
         >
-            Solutions
+            Sales
         </a>,
         "sub2",
         null
     ),
     getItem(
-        <a className={"navbarLink text-2xl"} href="/" rel="noopener noreferrer">
-            FinAdvisor
+        <a className={"navbarLink"} href="#Bankruptcy" rel="noopener noreferrer">
+            Bankruptcy
         </a>,
         "sub3",
         null
     ),
     getItem(
-        <a className={"navbarLink"} href="#faq" rel="noopener noreferrer">
-            FAQ
+        <a className={"navbarLink"} href="#Employee-Atrition" rel="noopener noreferrer">
+            Employee Atrition
         </a>,
         "sub4",
         null
     ),
     getItem(
-        <a className={"navbarLink"} href="#schedule" rel="noopener noreferrer">
-            Login
+        <a className={"navbarLink"} href="#FinGPT" rel="noopener noreferrer">
+            FinGPT
         </a>,
         "sub5",
         null
