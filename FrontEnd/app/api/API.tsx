@@ -1,7 +1,9 @@
+import { stockFormData } from "../types";
+
 const API_URL = "http://127.0.0.1:8000/api";
 
-export async function createStockPost(stockFormData: any) {
-    return fetch(`${API_URL}/stocks/`, {
+export async function createStockPost(stockFormData: stockFormData) {
+    return fetch(`${API_URL}/stocks`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

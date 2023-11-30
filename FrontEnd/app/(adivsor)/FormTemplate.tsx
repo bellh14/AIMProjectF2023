@@ -2,15 +2,11 @@
 import React from "react";
 import {
     Button,
-    Cascader,
     DatePicker,
     Form,
     Input,
     InputNumber,
-    Radio,
     Select,
-    Switch,
-    TreeSelect,
 } from "antd";
 
 import {
@@ -38,7 +34,23 @@ const FormTemplate = (props: Props) => {
 
     const onStockSubmit = (values: stockFormData) => {
         console.log(values);
+        props.onChange(values);
     };
+
+    const onSaleSubmit = (values: saleFormData) => {
+        console.log(values);
+        props.onChange(values);
+    }
+
+    const onBankruptcySubmit = (values: bankruptcyFormData) => {
+        console.log(values);
+        props.onChange(values);
+    }
+
+    const onEmployeeAtritionSubmit = (values: employeeAttritionFormData) => {
+        console.log(values);
+        props.onChange(values);
+    }
 
     switch (props.name) {
         case "Stocks":
@@ -85,7 +97,7 @@ const FormTemplate = (props: Props) => {
                         layout="horizontal"
                         size="large"
                         className="w-full my-16 shadow-lg p-8 rounded-xl backdrop-filter backdrop-blur-lg bg-opacity-70 bg-primary-off-white"
-                        onFinish={onStockSubmit}
+                        onFinish={onSaleSubmit}
                         form={form}
                     >
                         <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">
@@ -136,7 +148,7 @@ const FormTemplate = (props: Props) => {
                                 htmlType="submit"
                                 type="primary"
                             >
-                                Button
+                                Submit
                             </Button>
                         </Form.Item>
                     </Form>
@@ -151,7 +163,7 @@ const FormTemplate = (props: Props) => {
                         layout="horizontal"
                         size="middle"
                         className="my-16 shadow-lg p-4 rounded-xl backdrop-filter backdrop-blur-lg bg-opacity-70 bg-primary-off-white"
-                        onFinish={onStockSubmit}
+                        onFinish={onBankruptcySubmit}
                         form={form}
                     >
                         <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">
@@ -196,7 +208,7 @@ const FormTemplate = (props: Props) => {
                         layout="horizontal"
                         size="large"
                         className="w-full my-16 shadow-lg p-8 rounded-xl backdrop-filter backdrop-blur-lg bg-opacity-70 bg-primary-off-white"
-                        onFinish={onStockSubmit}
+                        onFinish={onEmployeeAtritionSubmit}
                         form={form}
                     >
                         <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">

@@ -1,6 +1,6 @@
 export type stockFormData = {
     stockTicker: string;
-    date: string;
+    date: Date;
 };
 
 export type saleFormData = {
