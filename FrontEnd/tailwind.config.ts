@@ -33,7 +33,7 @@ module.exports = {
                 "primary-pink": "#C3ACD0",
                 "primary-purple": "#7743DB",
                 "primary-off-white": "#FFFBF5",
-                beige: "#F7EFE5",
+                "beige": "#F7EFE5",
                 "primary-blue": "#084887",
             },
             backgroundImage: {
