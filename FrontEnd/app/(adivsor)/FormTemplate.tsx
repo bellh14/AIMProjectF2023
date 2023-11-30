@@ -16,9 +16,15 @@ import {
 type Props = {
     id: string;
     name: string;
+    onChange: (e: any) => void;
 };
 
 const FormTemplate = (props: Props) => {
+
+    const handleChange = (e: any) => {
+        props.onChange(+e.currentTarget.value)
+    }
+
     return (
         <div id={props.id}>
             <Form
@@ -27,6 +33,7 @@ const FormTemplate = (props: Props) => {
                 layout="horizontal"
                 size="large"
                 className="w-full my-16 shadow-lg p-8 rounded-xl"
+                onFieldsChange={handleChange}
             >
                 <h2 className="text-3xl font-bold text-center mb-8 text-primary-purple">
                     {props.name}
