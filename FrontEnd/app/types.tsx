@@ -1,17 +1,28 @@
-
 export type stockFormData = {
     stockTicker: string;
-    dateRangeWeeks: number;
-}
+    date: string;
+};
 
 export type saleFormData = {
-
-}
+    gender: string;
+    transactionAmount: number;
+    merchantName: string;
+    category: string;
+    age: number;
+    month: number;
+    year: number;
+};
 
 export type bankruptcyFormData = {
+    currentRatio: number;
+    operatingCashFlow: number;
+    debtRatio: number;
+};
 
-}
-
-export type employeeAtritionFormData = {
-
-}
+export type employeeAttritionFormData = {
+    age: number;
+    businessTravel: string;
+    department: string;
+    maritalStatus: string;
+    monthlyIncome: number;
+};

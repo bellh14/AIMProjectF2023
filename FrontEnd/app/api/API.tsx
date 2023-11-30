@@ -39,7 +39,7 @@ export async function createSalePost(saleFormData: any) {
 }
 
 export async function createEmployeeAtritionPost(employeeAtritionFormData: any) {
-    return fetch(`${API_URL}/employee-atrittion/`, {
+    return fetch(`${API_URL}/employee-attrition/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
