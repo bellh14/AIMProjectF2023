@@ -15,6 +15,11 @@ class Test(BaseModel):
 class TestOut(BaseModel):
     response: str
 
+class StockForm(BaseModel):
+    stock: str
+    start_date: str
+    end_date: str
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
