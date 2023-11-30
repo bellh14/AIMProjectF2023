@@ -177,6 +177,27 @@ class Stocks:
         )
         return history
 
+    def fit(self, model, window, patience=10, max_epochs=50):
+         model.fit(
+            window.train,
+            epochs=max_epochs,
+            validation_data=window.val,
+            callbacks=[early_stopping],
+        )
+
+    def train(self, linear, train_df, val_df, test_df):
+        multi_window = DataWindow(
+        input_width=21,
+        label_width=21,
+        shift=21,
+        train_df=train_df,
+        val_df=val_df,
+        test_df=test_df,
+        label_columns=["Close"],
+        )
+        self.fit(linear, multi_window)
+
+
 
 class MultiStepLastBaseline(Model):
     def __init__(self, label_index=None):
@@ -230,6 +251,7 @@ class AutoRegressive(Model):
         predictions = tf.transpose(predictions, [1, 0, 2])
 
         return predictions
+
 
 
 if __name__ == "__main__":
