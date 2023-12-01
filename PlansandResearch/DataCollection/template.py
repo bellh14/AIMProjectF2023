@@ -6,15 +6,19 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from Visualizations import Visualizer
 from HyperParameterTuner import HyperParameterTuner
+
 # imports
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
+from joblib import dump, load
+
 """
     Use if you want
     rename the class to reflect the data you are using
     have relevant file and folder names
     Dont forrget to remove the NotImplementedError
 """
+
 
 class TrainModelTemplate:
     def __init__(self, folder_name: str, file_name: str, target: str):
@@ -25,11 +29,13 @@ class TrainModelTemplate:
         self.train_data, self.validation_data = self.split_validataion_data(
             validation_split=0.2
         )
-        self.train_labels, self.test_labels, self.validation_labels = self.split_labels(target=target)
+        self.train_labels, self.test_labels, self.validation_labels = self.split_labels(
+            target=target
+        )
 
     def load_data(self) -> pd.DataFrame:
         """Load data from the data folder"""
-        return pd.read_csv(self.file_name)
+        return pd.DataFrame(pd.read_csv(self.file_name))
         # raise NotImplementedError
 
     def split_data(self) -> pd.DataFrame:
@@ -45,7 +51,9 @@ class TrainModelTemplate:
         Returns: two dataframes: train and validation data
         Usually 80% train and 20% validation
         """
-        return train_test_split(self.train_data, test_size=validation_split, random_state=42)
+        return train_test_split(
+            self.train_data, test_size=validation_split, random_state=42
+        )
         # raise NotImplementedError
 
     def split_labels(self, target: str) -> pd.DataFrame:
@@ -73,7 +81,6 @@ class TrainModelTemplate:
         y_pred = model.predict(self.test_data)
         print("Decision Tree R2 Score: ", r2_score(self.test_labels, y_pred))
 
-
     def random_forest(
         self,
         n_estimators: int = 500,
@@ -94,14 +101,24 @@ class TrainModelTemplate:
 
     def neural_network(self) -> None:
         """Neural network model"""
-        model = tf.keras.Sequential([
-            layers.Dense(64, activation='relu', input_shape=(self.train_data.shape[1],)),
-            layers.Dense(32, activation='relu'),
-            layers.Dense(1)  # Assuming a regression task
-        ])
+        model = tf.keras.Sequential(
+            [
+                layers.Dense(
+                    64, activation="relu", input_shape=(self.train_data.shape[1],)
+                ),
+                layers.Dense(32, activation="relu"),
+                layers.Dense(1),  # Assuming a regression task
+            ]
+        )
 
-        model.compile(optimizer='adam', loss='mean_squared_error')
-        model.fit(self.train_data, self.train_labels, epochs=10, batch_size=32, validation_data=(self.validation_data, self.validation_labels))
+        model.compile(optimizer="adam", loss="mean_squared_error")
+        model.fit(
+            self.train_data,
+            self.train_labels,
+            epochs=10,
+            batch_size=32,
+            validation_data=(self.validation_data, self.validation_labels),
+        )
 
         y_pred = model.predict(self.test_data)
         print("Neural Network R2 Score: ", r2_score(self.test_labels, y_pred))
@@ -112,26 +129,29 @@ class TrainModelTemplate:
         best_hps = hyperparameter_tuner.kt_dnn_tuner()
 
         model = hyperparameter_tuner.dnn_model_builder(best_hps)
-        
+
         history = model.fit(
             self.train_data,
             self.train_labels,
             epochs=100,  # You can adjust the number of epochs
             validation_data=(self.validation_data, self.validation_labels),
-            callbacks=[tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=25)],
+            callbacks=[
+                tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=25)
+            ],
         )
 
         y_pred = model.predict(self.test_data)
         print("DNN R2 Score: ", r2_score(self.test_labels, y_pred))
-        
+
         # Visualize the training loss
         visualizer = Visualizer()
         visualizer.plot_loss_plt(self.folder_name, self.file_name, history)
         # raise NotImplementedError
 
+        model.save("EmployeeAttrition.h5")
+
 
 if __name__ == "__main__":
-    
     # 1. Load data
     # 2. Split data
     # 3. Split labels
@@ -139,15 +159,22 @@ if __name__ == "__main__":
     # 5. Visualize results
     # 6. Save results
 
-    folder_name = "data/"
-    file_name = "C:/Users/Robert/Projects/AIMProjectF2023/PlansandResearch/DataCollection/bankruptcy_predictor_cleaned.csv"
-    model = TrainModelTemplate(folder_name, file_name, "Bankrupt?")
+    # folder_name = "data/"
+    # file_name = "PlansandResearch/DataCollection/bankruptcy_predictor_cleaned.csv"
+    # model = TrainModelTemplate(folder_name, file_name, "Bankrupt?")
+    # model.linear_regression()
+    # model.decision_tree()
+    # model.random_forest()
+    # dump(model, "Bankruptcy_rf.joblib")
+    # model.neural_network()
+    # model.dnn()
+
+    folder_name = "data/ea/"
+    file_name = "PlansandResearch/DataCollection/employee_attrition_cleaned.csv"
+    model = TrainModelTemplate(folder_name, file_name, "Attrition")
     model.linear_regression()
     model.decision_tree()
     model.random_forest()
+    dump(model, "EmployeeAttrition_rf.joblib")
     model.neural_network()
     model.dnn()
-
-
-
-    

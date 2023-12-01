@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestRegressor
 from Visualizations import Visualizer
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
+from joblib import dump, load
 
 #train model class 
 class TrainModel:
@@ -30,7 +31,7 @@ class TrainModel:
         
     def load_data(self) -> pd.DataFrame:
         """Load data from the data folder"""
-        data = pd.read_csv("normalized_data.csv")  #read data file
+        data = pd.DataFrame(pd.read_csv("models/transaction_models/normalized_data.csv"))  #read data file
         return data
     
     def split_data(self) -> pd.DataFrame:
@@ -174,7 +175,7 @@ class TrainModel:
 
 #train the model 
 model = TrainModel("AIM_DATASET", "normalized_data", "Transaction")
-data = pd.read_csv("normalized_data.csv") 
+data = pd.read_csv("models/transaction_models/normalized_data.csv") 
 
 #just for me to see
 print(data.columns)
@@ -193,7 +194,8 @@ model.visualize_predictions(predictions, model.test_data)
 #random forest 
 initial_rf_model = model.random_forest()
 rf_predictions = initial_rf_model.predict(model.test_data)
-model.visualize_predictions(rf_predictions, model.test_data)
+# model.visualize_predictions(rf_predictions, model.test_data)
+dump(initial_rf_model, 'sales_rf_model.joblib')
 
 #dnn
 #trained_dnn_model = model.dnn()

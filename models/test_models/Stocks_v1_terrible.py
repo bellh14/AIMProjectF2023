@@ -178,7 +178,7 @@ class Stocks:
         return history
 
     def fit(self, model, window, patience=10, max_epochs=50):
-         model.fit(
+        model.fit(
             window.train,
             epochs=max_epochs,
             validation_data=window.val,
@@ -187,16 +187,15 @@ class Stocks:
 
     def train(self, linear, train_df, val_df, test_df):
         multi_window = DataWindow(
-        input_width=21,
-        label_width=21,
-        shift=21,
-        train_df=train_df,
-        val_df=val_df,
-        test_df=test_df,
-        label_columns=["Close"],
+            input_width=21,
+            label_width=21,
+            shift=21,
+            train_df=train_df,
+            val_df=val_df,
+            test_df=test_df,
+            label_columns=["Close"],
         )
         self.fit(linear, multi_window)
-
 
 
 class MultiStepLastBaseline(Model):
@@ -253,14 +252,18 @@ class AutoRegressive(Model):
         return predictions
 
 
-
 if __name__ == "__main__":
-    stocks = Stocks("../stock_market_data")
+    folder_name = "../../../stock_market_data/sp500/csv/"
+    stocks = Stocks("../../../stock_market_data/sp500/csv/")
     # stocks.combine_data()
 
     # stocks.data_pipeline()
     # stocks.load_data("stocks_train.csv", "stocks_val.csv", "stocks_test.csv")
-    stocks.load_data("AAPL_train.csv", "AAPL_val.csv", "AAPL_test.csv")
+    stocks.load_data(
+        f"{folder_name}IBM_train.csv",
+        f"{folder_name}IBM_val.csv",
+        f"{folder_name}IBM_test.csv",
+    )
     multi_window = DataWindow(
         input_width=21,
         label_width=21,
@@ -295,10 +298,10 @@ if __name__ == "__main__":
     with tf.device("/cpu:0"):
         linear = Sequential([Dense(units=1, kernel_initializer=tf.initializers.zeros)])
         history = stocks.compile_and_fit(linear, multi_window)
-        try:
-            linear.save("linear_model.h5")
-        except Exception as e:
-            print(e)
+        # try:
+        #     linear.save("linear_model.h5")
+        # except Exception as e:
+        #     print(e)
         val_performance["Linear"] = linear.evaluate(multi_window.val)
         performance["Linear"] = linear.evaluate(multi_window.test, verbose=0)
         multi_window.plot(model=linear, model_name="Linear")
@@ -311,10 +314,10 @@ if __name__ == "__main__":
             ]
         )
         history = stocks.compile_and_fit(dense, multi_window)
-        try:
-            dense.save("dense_model.h5")
-        except Exception as e:
-            print(e)
+        # try:
+        #     dense.save("dense_model.h5")
+        # except Exception as e:
+        #     print(e)
         val_performance["Dense"] = dense.evaluate(multi_window.val)
         performance["Dense"] = dense.evaluate(multi_window.test, verbose=0)
         multi_window.plot(model=dense, model_name="Dense")
@@ -326,10 +329,10 @@ if __name__ == "__main__":
             ]
         )
         history = stocks.compile_and_fit(lstm_model, multi_window)
-        try:
-            lstm_model.save("lstm_model.h5")
-        except Exception as e:
-            print(e)
+        # try:
+        #     lstm_model.save("lstm_model.h5")
+        # except Exception as e:
+        #     print(e)
         val_performance["LSTM"] = lstm_model.evaluate(multi_window.val)
         performance["LSTM"] = lstm_model.evaluate(multi_window.test, verbose=0)
         multi_window.plot(model=lstm_model, model_name="LSTM")
@@ -361,7 +364,7 @@ if __name__ == "__main__":
         )
         history = stocks.compile_and_fit(cnn_model, cnn_multi_window)
         try:
-            cnn_model.save("cnn_model.h5")
+            cnn_model.save("../stocks/cnn_model.h5")
         except Exception as e:
             print(e)
         val_performance["CNN"] = cnn_model.evaluate(cnn_multi_window.val)
@@ -380,10 +383,10 @@ if __name__ == "__main__":
             ]
         )
         history = stocks.compile_and_fit(cnn_lstm_model, cnn_multi_window)
-        try:
-            cnn_lstm_model.save("cnn_lstm_model.h5")
-        except Exception as e:
-            print(e)
+        # try:
+        #     cnn_lstm_model.save("cnn_lstm_model.h5")
+        # except Exception as e:
+        #     print(e)
         val_performance["CNN + LSTM"] = cnn_lstm_model.evaluate(cnn_multi_window.val)
         performance["CNN + LSTM"] = cnn_lstm_model.evaluate(
             cnn_multi_window.test, verbose=0
@@ -475,6 +478,6 @@ if __name__ == "__main__":
         df = pd.DataFrame(data, index=model_names)
         df_sorted = df.sort_values(by="Test - MAE", ascending=True)
         print(df_sorted.T)
-        df.to_csv("results.csv", index=True, header=True)
+        # df.to_csv("results.csv", index=True, header=True)
     except Exception as e:
         print(e)

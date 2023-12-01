@@ -57,13 +57,13 @@ const items: MenuProps["items"] = [
         "sub4",
         null
     ),
-    getItem(
-        <a className={"navbarLink"} href="#FinGPT" rel="noopener noreferrer">
-            FinGPT
-        </a>,
-        "sub5",
-        null
-    ),
+    // getItem(
+    //     <a className={"navbarLink"} href="#FinGPT" rel="noopener noreferrer">
+    //         FinGPT
+    //     </a>,
+    //     "sub5",
+    //     null
+    // ),
 ];
 
 type Props = {};

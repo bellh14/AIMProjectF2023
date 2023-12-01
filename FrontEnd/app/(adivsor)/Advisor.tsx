@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import FormTemplate from "./FormTemplate";
+import { Modal } from "antd";
 import {
     stockFormData,
     saleFormData,
@@ -24,6 +25,22 @@ const Advisor = (props: Props) => {
         {} as employeeAttritionFormData
     );
     const [finGPT, setFinGPT] = useState(0);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalText, setModalText] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    }
 
     async function handleStockSubmit(e: any) {
         setStocks(e);
@@ -32,8 +49,14 @@ const Advisor = (props: Props) => {
             stockTicker: stocks.stockTicker,
             date: stocks.date,
         };
+
         console.log("Stock Form Data: ", stockFormData);
+        setConfirmLoading(true);
         const stockResponse = await createStockPost(stockFormData);
+        setConfirmLoading(false);
+        setModalText(JSON.stringify(stockResponse));
+        setModalTitle("Stocks");
+        showModal();
         console.log("Stock Response: ", stockResponse);
     }
 
@@ -42,7 +65,6 @@ const Advisor = (props: Props) => {
         console.log("Sales: ", sales);
         const saleFormData: saleFormData = {
             gender: sales.gender,
-            transactionAmount: sales.transactionAmount,
             merchantName: sales.merchantName,
             category: sales.category,
             age: sales.age,
@@ -50,7 +72,12 @@ const Advisor = (props: Props) => {
             year: sales.year,
         };
         console.log("Sale Form Data: ", saleFormData);
+        setConfirmLoading(true);
         const saleResponse = await createSalePost(saleFormData);
+        setConfirmLoading(false);
+        setModalText(JSON.stringify(saleResponse));
+        setModalTitle("Sales");
+        showModal();
         console.log("Sale Response: ", saleResponse);
     }
 
@@ -63,9 +90,14 @@ const Advisor = (props: Props) => {
             debtRatio: bankruptcy.debtRatio,
         };
         console.log("Bankruptcy Form Data: ", bankruptcyFormData);
+        setConfirmLoading(true);
         const bankruptcyResponse = await createBankruptcyPost(
             bankruptcyFormData
         );
+        setConfirmLoading(false);
+        setModalText(JSON.stringify(bankruptcyResponse));
+        setModalTitle("Bankruptcy");
+        showModal();
         console.log("Bankruptcy Response: ", bankruptcyResponse);
     }
 
@@ -78,11 +110,17 @@ const Advisor = (props: Props) => {
             department: employeeAtrition.department,
             maritalStatus: employeeAtrition.maritalStatus,
             monthlyIncome: employeeAtrition.monthlyIncome,
+            yearsAtCompany: employeeAtrition.yearsAtCompany,
         };
         console.log("Employee Atrition Form Data: ", employeeAtritionFormData);
+        setConfirmLoading(true);
         const employeeAtritionResponse = await createEmployeeAtritionPost(
             employeeAtritionFormData
         );
+        setConfirmLoading(false);
+        setModalText(JSON.stringify(employeeAtritionResponse));
+        setModalTitle("Employee Atrition");
+        showModal();
         console.log("Employee Atrition Response: ", employeeAtritionResponse);
     }
 
@@ -114,6 +152,15 @@ const Advisor = (props: Props) => {
                 name="FinGPT"
                 onChange={(e) => setFinGPT(e)}
             />
+            <Modal
+                title={modalTitle}
+                open={isModalVisible}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+            >
+                <p>{modalText}</p>
+            </Modal>
         </section>
     );
 };
