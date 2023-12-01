@@ -185,6 +185,12 @@ const FormTemplate = (props: Props) => {
                             <Form.Item label="Debt Ratio" name="debtRatio">
                                 <InputNumber placeholder="0.25"/>
                             </Form.Item>
+                            <Form.Item
+                                label="Years at Company"
+                                name="yearsAtCompany"
+                            >
+                                <InputNumber />
+                            </Form.Item>
                         </div>
                         <Form.Item className="flex justify-center">
                             <Button

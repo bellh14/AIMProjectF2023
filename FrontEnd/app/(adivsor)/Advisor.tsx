@@ -61,6 +61,7 @@ const Advisor = (props: Props) => {
             currentRatio: bankruptcy.currentRatio,
             operatingCashFlow: bankruptcy.operatingCashFlow,
             debtRatio: bankruptcy.debtRatio,
+            yearsAtCompany: bankruptcy.yearsAtCompany,
         };
         console.log("Bankruptcy Form Data: ", bankruptcyFormData);
         const bankruptcyResponse = await createBankruptcyPost(

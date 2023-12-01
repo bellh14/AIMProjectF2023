@@ -52,6 +52,7 @@ class BankruptcyForm(BaseModel):
     currentRatio: float
     operatingCashFlow: float
     debtRatio: float
+    yearsAtCompany: int
 
 
 @app.post("/api/stocks")

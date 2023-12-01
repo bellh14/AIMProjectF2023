@@ -17,6 +17,7 @@ export type bankruptcyFormData = {
     currentRatio: number;
     operatingCashFlow: number;
     debtRatio: number;
+    yearsAtCompany: number;
 };
 
 export type employeeAttritionFormData = {
