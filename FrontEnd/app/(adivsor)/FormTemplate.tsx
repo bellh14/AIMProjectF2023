@@ -1,13 +1,6 @@
 "use client";
 import React from "react";
-import {
-    Button,
-    DatePicker,
-    Form,
-    Input,
-    InputNumber,
-    Select,
-} from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 
 import {
     stockFormData,
@@ -40,17 +33,17 @@ const FormTemplate = (props: Props) => {
     const onSaleSubmit = (values: saleFormData) => {
         console.log(values);
         props.onChange(values);
-    }
+    };
 
     const onBankruptcySubmit = (values: bankruptcyFormData) => {
         console.log(values);
         props.onChange(values);
-    }
+    };
 
     const onEmployeeAtritionSubmit = (values: employeeAttritionFormData) => {
         console.log(values);
         props.onChange(values);
-    }
+    };
 
     switch (props.name) {
         case "Stocks":
@@ -135,12 +128,6 @@ const FormTemplate = (props: Props) => {
                             <Form.Item label="Year" name="year">
                                 <InputNumber />
                             </Form.Item>
-                            <Form.Item
-                                label="Transaction Amount ($)"
-                                name="transactionAmount"
-                            >
-                                <InputNumber placeholder="$"/>
-                            </Form.Item>
                         </div>
                         <Form.Item className="flex justify-center">
                             <Button
@@ -174,7 +161,7 @@ const FormTemplate = (props: Props) => {
                                 label="Current Ratio"
                                 name="currentRatio"
                             >
-                                <InputNumber placeholder="0.25"/>
+                                <InputNumber placeholder="0.25" />
                             </Form.Item>
                             <Form.Item
                                 label="Operating Cash Flow"
@@ -183,13 +170,7 @@ const FormTemplate = (props: Props) => {
                                 <InputNumber />
                             </Form.Item>
                             <Form.Item label="Debt Ratio" name="debtRatio">
-                                <InputNumber placeholder="0.25"/>
-                            </Form.Item>
-                            <Form.Item
-                                label="Years at Company"
-                                name="yearsAtCompany"
-                            >
-                                <InputNumber />
+                                <InputNumber placeholder="0.25" />
                             </Form.Item>
                         </div>
                         <Form.Item className="flex justify-center">
@@ -272,6 +253,12 @@ const FormTemplate = (props: Props) => {
                             <Form.Item
                                 label="Monthly Income"
                                 name="monthlyIncome"
+                            >
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item
+                                label="Years at Company"
+                                name="yearsAtCompany"
                             >
                                 <InputNumber />
                             </Form.Item>

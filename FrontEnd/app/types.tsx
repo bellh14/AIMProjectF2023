@@ -5,7 +5,6 @@ export type stockFormData = {
 
 export type saleFormData = {
     gender: string;
-    transactionAmount: number;
     merchantName: string;
     category: string;
     age: number;
@@ -17,7 +16,6 @@ export type bankruptcyFormData = {
     currentRatio: number;
     operatingCashFlow: number;
     debtRatio: number;
-    yearsAtCompany: number;
 };
 
 export type employeeAttritionFormData = {
@@ -26,4 +24,5 @@ export type employeeAttritionFormData = {
     department: string;
     maritalStatus: string;
     monthlyIncome: number;
+    yearsAtCompany: number;
 };

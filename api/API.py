@@ -5,6 +5,8 @@ from requests import request
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from ModelHandler import Handler
+from Forms import StockForm, SalesForm, EmployeeAttritionForm, BankruptcyForm
 
 app = FastAPI()
 app.add_middleware(
@@ -25,55 +27,32 @@ class TestOut(BaseModel):
     response: str
 
 
-class StockForm(BaseModel):
-    stockTicker: str
-    date: str
-
-
-class SalesForm(BaseModel):
-    gender: str
-    transactionAmount: float
-    merchantName: str
-    category: str
-    age: int
-    month: int
-    year: int
-
-
-class EmployeeAttritionForm(BaseModel):
-    age: int
-    businessTravel: str
-    department: str
-    maritalStatus: str
-    monthlyIncome: int
-
-
-class BankruptcyForm(BaseModel):
-    currentRatio: float
-    operatingCashFlow: float
-    debtRatio: float
-    yearsAtCompany: int
-
 
 @app.post("/api/stocks")
 def read_stock_post(stockInput: StockForm):
     print(stockInput)
-    return {"Stock": "appl", "Close": 100}
+    close = Handler.predictStocks(stockInput)
+    return {"Close": close}
 
 
 @app.post("/api/sales")
 def read_sales_post(saleInput: SalesForm):
     print(saleInput)
-    return {"Estimated sales": 100000}
+    sales = Handler.predictSales(saleInput)
+    return {"Estimated sales": sales}
 
 
 @app.post("/api/employee-attrition")
 def read_employee_atrittion_post(employeeAttritionInput: EmployeeAttritionForm):
     print(employeeAttritionInput)
-    return {"EmployeeAttrition": "True"}
+    leave = Handler.predictEmployeeAttrition(employeeAttritionInput)
+    print(leave)
+    return {"EmployeeAttrition": leave}
 
 
 @app.post("/api/bankruptcy")
 def read_bankruptcy_post(bankruptcyInput: BankruptcyForm):
     print(bankruptcyInput)
-    return {"Bankruptcy": "True"}
+    bankruptcy = Handler.predictBankruptcy(bankruptcyInput)
+    print(bankruptcy)
+    return {"Bankruptcy": bankruptcy}
